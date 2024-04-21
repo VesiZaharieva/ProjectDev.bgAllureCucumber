@@ -1,29 +1,27 @@
-package selenium.base;
-import io.qameta.allure.Allure;
+package selenium.steps;
+
+import dev.selenium.driver.DriverFactory;
+import io.cucumber.java.After;
+import io.cucumber.java.Before;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.testng.ITestResult;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
-import dev.selenium.driver.DriverFactory;
-import java.io.File;
-import org.apache.commons.io.FileUtils;
+import io.cucumber.java.Scenario;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
 
 
-public class MainTest {
+public class TestHook {
     //public WebDriver driver;
     private String url;
     private int implicitWait;
     private String browser;
+
 
     private void setUpBrowserDriver() {
         try (FileInputStream configFile = new FileInputStream("src/test/resources/config.properties")) {
@@ -56,31 +54,22 @@ public class MainTest {
         driver.get(url);
     }
 
-    @BeforeMethod
+    @Before
     public void beforeSetup() {
         setUpBrowserDriver();
         loadUrl();
     }
 
-    @AfterMethod
-    public void tearDown(ITestResult result) {
+    @After
+    public void tearDown(Scenario scenario) {
         WebDriver driver = DriverFactory.getDriver();
-        if (ITestResult.FAILURE == result.getStatus()) {
-            TakesScreenshot screenshot = (TakesScreenshot)driver;
-            File source = screenshot.getScreenshotAs(OutputType.FILE);
-            String timestamp = new SimpleDateFormat("yyyy_MM_dd__hh_mm_ss").format(new Date());
-            String fileName = result.getName() + "_" + timestamp + ".png";
-            Path path = Paths.get("./Screenshots", fileName);
-            try {
-                Files.copy(source.toPath(), path);
-                Allure.addAttachment("Screenshot on Failure", "image/pgn", Files.newInputStream(path), ".pgn" );
-                //FileUtils.copyFile(source, new File("./Screenshots/" + fileName));
-                System.out.println("Screenshot taken: " + fileName);
-            } catch (IOException e) {
-                e.printStackTrace();
+        if (scenario.isFailed()) {
+            TakesScreenshot ts = (TakesScreenshot)driver;
+            byte[] screenshot = ts.getScreenshotAs(OutputType.BYTES);
+            scenario.attach(screenshot, "image/png", "Screenshot_" + new SimpleDateFormat("yyyy_MM_dd__hh_mm_ss").format(new Date()));
             }
-        }
         DriverFactory.quitDriver();
     }
 }
+
 

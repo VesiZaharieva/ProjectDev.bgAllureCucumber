@@ -1,4 +1,4 @@
-package selenium.base;
+package selenium.pages;
 
 import dev.selenium.driver.DriverFactory;
 import org.openqa.selenium.JavascriptExecutor;

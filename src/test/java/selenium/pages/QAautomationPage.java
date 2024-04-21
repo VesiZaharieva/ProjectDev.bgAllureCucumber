@@ -1,21 +1,12 @@
 package selenium.pages;
 
 import dev.selenium.driver.DriverFactory;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.FindBys;
-import org.testng.annotations.BeforeMethod;
-import selenium.base.BasePage;
 
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
-
-import static java.util.List.*;
 
 public class QAautomationPage extends BasePage {
     Actions actions;

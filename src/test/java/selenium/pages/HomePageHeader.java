@@ -1,13 +1,9 @@
 package selenium.pages;
 
 import dev.selenium.driver.DriverFactory;
-import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
-import selenium.base.BasePage;
-
-import javax.xml.stream.Location;
 
 import static org.testng.AssertJUnit.assertEquals;
 
