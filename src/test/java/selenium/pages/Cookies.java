@@ -4,14 +4,15 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 public class Cookies extends BasePage{
-    //public Cookies(WebDriver driver) {super(driver);}
-    @FindBy(css = "#cmplz-cookiebanner-container .cmplz-accept")
+
+    @FindBy(css = ".cmplz-accept")
     private WebElement acceptCookieButton;
 
     @FindBy (css = "#cmplz-cookiebanner-container")
     private WebElement cookieBanner;
 
     public void clickCookie(){
+        waitForElementToBeVisible(cookieBanner);
         acceptCookieButton.click();
         waitForElementToBeStale(cookieBanner);
     }

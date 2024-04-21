@@ -1,8 +1,10 @@
 package selenium.steps;
 
+import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import selenium.pages.Cookies;
 import selenium.pages.HomePage;
 import selenium.pages.RegistrationForm;
 
@@ -11,6 +13,12 @@ import static org.testng.AssertJUnit.assertFalse;
 public class RegisterSteps {
     private HomePage homePage = new HomePage();
     private RegistrationForm registrationForm = new RegistrationForm();
+    private Cookies cookies = new Cookies();
+
+    @Before
+    public void acceptCookies(){
+        cookies.clickCookie();
+    }
 
     @Given("the user set first name {string}")
     public void theUserSetFirstname(String firstName) {
@@ -23,7 +31,7 @@ public class RegisterSteps {
     }
 
     @Given("the user set e-mail {string}")
-    public void theUserSetemail(String email) {
+    public void theUserSetEmail(String email) {
         registrationForm.enterEmail(email);
     }
 
